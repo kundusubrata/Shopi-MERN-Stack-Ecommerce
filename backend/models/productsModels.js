@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please enter product price"],
       maxLength: [5, "Product price cannot exceed 5 digits"],
     },
-    despcription: {
+    description: {
       type: String,
       required: [true, "Please enter product description"],
     },
@@ -38,13 +38,15 @@ const productSchema = new mongoose.Schema(
       enum: {
         values: [
           "Electronics",
-          "Mobile",
           "Cameras",
+          "Laptops",
+          "Accessories",
           "Headphones",
-          "Laptop",
-          "Sports",
+          "Food",
           "Books",
+          "Sports",
           "Outdoor",
+          "Home",
         ],
         message: "Please select Correct category",
       },
@@ -55,7 +57,7 @@ const productSchema = new mongoose.Schema(
     },
     stock: {
       type: Number,
-      require: [true, "Please enter product stock"],
+      required: [true, "Please enter product stock"],
     },
     numOfReviews: {
       type: Number,
@@ -81,7 +83,7 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
     //   createdAt: {
     //     type: Date,
