@@ -1,6 +1,7 @@
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import { connectDatabase } from "./config/dbConnect.js";
 import errorMiddleware from "./middlewares/error.js"
 
@@ -18,12 +19,15 @@ dotenv.config({ path: "./backend/config/config.env" });
 connectDatabase();
 
 app.use(express.json());
+app.use(cookieParser());
 
 // Import All Routes
 
 import productsRoute from "./routes/productsRoute.js";
+import authRoute from "./routes/authRoute.js";
 
-app.use("/api/v1/", productsRoute);
+app.use("/api/v1", productsRoute);
+app.use("/api/v1", authRoute);
 
 // Using error midleware
 app.use(errorMiddleware);

@@ -5,10 +5,10 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 // Get All Product  =>   /api/v1/products
 export const getProducts = catchAsyncErrors(async (req, res, next) => {
-
   const resPerPage = 4;
-
   const apiFilters = new APIFilters(Product, req.query).search().filters();
+
+  // console.log('req?.user: ',req?.user);
 
   let products = await apiFilters.query;
   let filterProductsCount = products.length;
@@ -25,6 +25,7 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
 // Create New Product   =>  /api/v1/admin/products
 export const newProducts = catchAsyncErrors(async (req, res, next) => {
+  req.body.user = req.user._id;
   const product = await Product.create(req.body);
   res.status(200).json({
     product,
