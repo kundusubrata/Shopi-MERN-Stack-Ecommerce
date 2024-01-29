@@ -11,14 +11,16 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
   // console.log('req?.user: ',req?.user);
 
   let products = await apiFilters.query;
-  let filterProductsCount = products.length;
+  let filteredProductsCount = products.length;
+
+  // return next(new ErrorHandler("Products Error",400)); // => This is for checking toast notification
 
   apiFilters.pagination(resPerPage);
   products = await apiFilters.query.clone();
 
   res.status(200).json({
     resPerPage,
-    filterProductsCount,
+    filteredProductsCount,
     products,
   });
 });
