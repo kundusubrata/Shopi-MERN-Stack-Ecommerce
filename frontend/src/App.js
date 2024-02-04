@@ -11,6 +11,11 @@ import Login from "./components/auth/login.jsx";
 import Register from "./components/auth/Register.jsx";
 import Profile from "./components/user/Profile.jsx";
 import UpdateUser from "./components/user/UpdateUser.jsx";
+import ProtectedRoute from "./components/auth/ProtectedRoute.jsx";
+import UploadAvatar from "./components/user/UploadAvatar.jsx";
+import UpdatePassword from "./components/user/UpdatePassword.jsx";
+import ForgotPassword from "./components/auth/ForgotPassword.jsx";
+import ResetPassword from "./components/auth/ResetPassword.jsx";
 
 function App() {
   return (
@@ -25,8 +30,42 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/me/profile" element={<Profile />} />
-            <Route path="/me/update_profile" element={<UpdateUser />} />
+
+            <Route path="/password/forgot" element={<ForgotPassword />} />
+            <Route path="/password/reset/:token" element={<ResetPassword />} />
+
+            <Route
+              path="/me/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/me/update_profile"
+              element={
+                <ProtectedRoute>
+                  <UpdateUser />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/me/upload_avatar"
+              element={
+                <ProtectedRoute>
+                  <UploadAvatar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/me/update_password"
+              element={
+                <ProtectedRoute>
+                  <UpdatePassword />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
 

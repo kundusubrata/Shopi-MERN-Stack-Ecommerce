@@ -15,8 +15,8 @@ const Header = () => {
 
   const { user } = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    logout();
+  const logoutHandler = async() => {
+    await logout();
     navigate(0);
   }
 
@@ -25,7 +25,7 @@ const Header = () => {
       <div className="col-12 col-md-3 ps-5">
         <div className="navbar-brand">
           <Link to="/">
-            <img src="/images/shopit_logo.png" alt="ShopIT Logo" />
+            <img src="/images/shopi_logo.jpeg" alt="Shopi Logo" />
           </Link>
         </div>
       </div>

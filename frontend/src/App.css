@@ -35,6 +35,12 @@ nav {
   padding: 0.1rem 1rem;
 }
 
+.navbar-brand img {
+  height: 35px;
+  border-radius: 5px;
+
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
