@@ -56,7 +56,11 @@ const Home = () => {
           <section id="products" className="mt-5">
             <div className="row">
               {data?.products?.map((product) => (
-                <ProductItem key={product?._id} product={product} columnSize={columnSize}/>
+                <ProductItem
+                  key={product?._id}
+                  product={product}
+                  columnSize={columnSize}
+                />
               ))}
             </div>
           </section>
