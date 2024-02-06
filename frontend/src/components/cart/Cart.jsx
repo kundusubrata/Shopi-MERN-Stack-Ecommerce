@@ -1,11 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setCartItem, removeCartItem } from "../../redux/features/cartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
   const increseQty = (item, quantity) => {
@@ -41,6 +42,10 @@ const Cart = () => {
     dispatch(removeCartItem(id));
   };
 
+  const checkoutHandler = () => {
+    navigate("/shipping");
+  };
+
   return (
     <>
       <MetaData title={"Your Cart"} />
@@ -53,8 +58,8 @@ const Cart = () => {
           </h2>
           <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8">
-              {cartItems?.map((item) => (
-                <>
+              {cartItems?.map((item,index) => (
+                <Fragment key={index}>
                   <hr />
                   <div className="cart-item" data-key="product1">
                     <div className="row">
@@ -88,7 +93,7 @@ const Cart = () => {
                             type="number"
                             className="form-control count d-inline"
                             value={item?.quantity}
-                            readonly
+                            readOnly
                           />
                           <span
                             className="btn btn-primary plus"
@@ -109,7 +114,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <hr />
-                </>
+                </Fragment>
               ))}
             </div>
 
@@ -137,7 +142,7 @@ const Cart = () => {
                   </span>
                 </p>
                 <hr />
-                <button id="checkout_btn" className="btn btn-primary w-100">
+                <button id="checkout_btn" className="btn btn-primary w-100" onClick={checkoutHandler}>
                   Check out
                 </button>
               </div>

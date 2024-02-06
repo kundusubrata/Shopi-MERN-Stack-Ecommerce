@@ -26,10 +26,12 @@ app.use(cookieParser());
 import productsRoute from "./routes/productsRoute.js";
 import authRoute from "./routes/authRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
 
 app.use("/api/v1", productsRoute);
 app.use("/api/v1", authRoute);
 app.use("/api/v1", orderRoute);
+app.use("/api/v1", paymentRoute);
 
 // Using error midleware
 app.use(errorMiddleware);
