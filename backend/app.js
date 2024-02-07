@@ -3,22 +3,28 @@ const app = express();
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { connectDatabase } from "./config/dbConnect.js";
-import errorMiddleware from "./middlewares/error.js"
-
+import errorMiddleware from "./middlewares/error.js";
 
 // Handled Uncaught Exceptions
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err}`);
   console.log("Shutting down due to Uncaught Exceptions");
   process.exit(1);
-})
+});
 
 dotenv.config({ path: "./backend/config/config.env" });
 
 // Connecting to Database
 connectDatabase();
 
-app.use(express.json({limit:"10mb"}));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req, res, buf) => {
+      req.rawbody = buf.toString();
+    },
+  })
+);
 app.use(cookieParser());
 
 // Import All Routes
@@ -43,10 +49,10 @@ const server = app.listen(process.env.PORT, () => {
 });
 
 //Handle Unhandle Promise Rejections
-process.on("unhandledRejection",(err) => {
+process.on("unhandledRejection", (err) => {
   console.log(`Error: ${err}`);
   console.log("Shutting down sersver due to Unhandled Promimse Rejections");
   server.close(() => {
     process.exit(1);
-  })
-})
+  });
+});

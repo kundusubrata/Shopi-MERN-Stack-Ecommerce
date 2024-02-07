@@ -25,7 +25,16 @@ export const productApi = createApi({
       query: (id) => `/products/${id}`,
       keepUnusedDataFor: 30,
     }),
+    submitReview: builder.mutation({
+      query(body) {
+        return {
+          url: "/reviews",
+          method: "PUT",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery } = productApi;
+export const { useGetProductsQuery, useGetProductDetailsQuery,useSubmitReviewMutation } = productApi;
