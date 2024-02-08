@@ -16,10 +16,10 @@ const Header = () => {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
-  const logoutHandler = async() => {
+  const logoutHandler = async () => {
     await logout();
     navigate(0);
-  }
+  };
 
   return (
     <nav className="navbar row">
@@ -70,10 +70,12 @@ const Header = () => {
               className="dropdown-menu w-100"
               aria-labelledby="dropDownMenuButton"
             >
-              <Link className="dropdown-item" to="/admin/dashboard">
-                {" "}
-                Dashboard{" "}
-              </Link>
+              {user?.role === "admin" && (
+                <Link className="dropdown-item" to="/admin/dashboard">
+                  {" "}
+                  Dashboard{" "}
+                </Link>
+              )}
 
               <Link className="dropdown-item" to="/me/orders">
                 {" "}
@@ -85,7 +87,11 @@ const Header = () => {
                 Profile{" "}
               </Link>
 
-              <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
+              <Link
+                className="dropdown-item text-danger"
+                to="/"
+                onClick={logoutHandler}
+              >
                 Logout{" "}
               </Link>
             </div>

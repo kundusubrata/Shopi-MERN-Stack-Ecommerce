@@ -2,6 +2,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Product from "../models/productsModels.js";
 import APIFilters from "../utils/apiFilter.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import Order from "../models/orderModels.js";
 
 // Get All Product  =>   /api/v1/products
 export const getProducts = catchAsyncErrors(async (req, res, next) => {
@@ -36,7 +37,9 @@ export const newProducts = catchAsyncErrors(async (req, res, next) => {
 
 // Get Single Product Details   =>  /api/v1/products/:id
 export const getProductDetails = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req?.params?.id);
+  const product = await Product.findById(req?.params?.id).populate(
+    "reviews.user"
+  );
 
   if (!product) {
     // return res.status(404).json({
@@ -47,6 +50,15 @@ export const getProductDetails = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     product,
+  });
+});
+
+// Get Products  -- ADMIN  =>  /api/v1/admin/products
+export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    products,
   });
 });
 
@@ -131,7 +143,6 @@ export const createProductReview = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // Get product reviews   =>  /api/v1/reviews
 export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.id);
@@ -144,7 +155,6 @@ export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
     reviews: product.reviews,
   });
 });
-
 
 // Delete product review   =>  /api/v1/admin/reviews
 export const deleteReview = catchAsyncErrors(async (req, res, next) => {
@@ -175,5 +185,21 @@ export const deleteReview = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     product,
+  });
+});
+
+// Can user review   =>  /api/v1/can_review
+export const canUserReview = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find({
+    user: req?.user?._id,
+    "orderItems.product": req.query.productId,
+  });
+
+  if (orders.length === 0) {
+    return res.status(200).json({ canReview: false });
+  }
+
+  res.status(200).json({
+    canReview: true,
   });
 });

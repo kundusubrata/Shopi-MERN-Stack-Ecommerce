@@ -8,6 +8,7 @@ import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import NewReview from "../reviews/NewReview";
+import ListReview from "../reviews/ListReview";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -183,6 +184,10 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        // console.log(product?.reviews),
+        <ListReview reviews={product?.reviews} />
+      )}
     </>
   );
 };

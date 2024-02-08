@@ -1,6 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import StarRatings from "react-star-ratings";
-import { useSubmitReviewMutation } from "../../redux/api/productsApi";
+import {
+  useCanUserReviewQuery,
+  useSubmitReviewMutation,
+} from "../../redux/api/productsApi";
 import toast from "react-hot-toast";
 
 const NewReview = ({ productId }) => {
@@ -10,14 +13,17 @@ const NewReview = ({ productId }) => {
   const [submitReview, { isLoading, error, isSuccess }] =
     useSubmitReviewMutation();
 
-    useEffect(() => {
-        if (error) {
-          toast.error(error?.message);
-        }
-        if(isSuccess){
-            toast.success("Review Posted");
-        }
-      }, [error,isSuccess]);
+  const { data } = useCanUserReviewQuery(productId);
+  const canReview = data?.canReview;
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.message);
+    }
+    if (isSuccess) {
+      toast.success("Review Posted");
+    }
+  }, [error, isSuccess]);
 
   const submitHandler = () => {
     // console.log("=======================");
@@ -29,15 +35,17 @@ const NewReview = ({ productId }) => {
   return (
     <>
       <div>
-        <button
-          id="review_btn"
-          type="button"
-          className="btn btn-primary mt-4"
-          data-bs-toggle="modal"
-          data-bs-target="#ratingModal"
-        >
-          Submit Your Review
-        </button>
+        {canReview && (
+          <button
+            id="review_btn"
+            type="button"
+            className="btn btn-primary mt-4"
+            data-bs-toggle="modal"
+            data-bs-target="#ratingModal"
+          >
+            Submit Your Review
+          </button>
+        )}
 
         <div className="row mt-2 mb-5">
           <div className="rating w-50">
@@ -86,6 +94,7 @@ const NewReview = ({ productId }) => {
                       data-bs-dismiss="modal"
                       aria-label="Close"
                       onClick={submitHandler}
+                      disabled={isLoading}
                     >
                       Submit
                     </button>
