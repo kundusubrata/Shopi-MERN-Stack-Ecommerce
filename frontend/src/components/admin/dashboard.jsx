@@ -47,7 +47,7 @@ const Dashboard = () => {
   return (
     <>
       <AdminLayout>
-        <MetaData title={"Admin Dashboard"} /> 
+        <MetaData title={"Dashboard"} /> 
         <div className="d-flex justify-content-start align-items-center">
           <div className="mb-3 me-4">
             <label className="form-label d-block">Start Date</label>
