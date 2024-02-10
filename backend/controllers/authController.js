@@ -230,7 +230,7 @@ export const updateUser = catchAsyncErrors(async (req, res, next) => {
     role: req.body.role,
   };
 
-  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
   });
 
@@ -249,7 +249,10 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  // TODO - Remove use avatar from cloudinary
+  //  Remove use avatar from cloudinary
+  if(user?.avatar?.public_id){
+    await delete_file(user?.avatar?.public_id);
+  }
 
   await user.deleteOne();
 

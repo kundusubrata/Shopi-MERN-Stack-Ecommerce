@@ -87,7 +87,7 @@ const Dashboard = () => {
                 <div className="text-center card-font-size">
                   Sales
                   <br />
-                  <b>${data?.totalSales}</b>
+                  <b>${(data?.totalSales ? data.totalSales.toFixed(2) : 'N/A')}</b>
                 </div>
               </div>
             </div>
